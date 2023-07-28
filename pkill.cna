@@ -1,0 +1,42 @@
+ alias pkill {
+    local('$bid @names %pids $loop');
+
+    $bid = shift(@_);
+    foreach $loop (@_) {
+        if($loop ismatch '^\d+$') {
+            %pids[$loop] = 1;
+        } else if($loop ismatch '^\S+\.\S+') {
+            add(@names, $loop);
+        }
+    }
+
+    if(size(@names) > 0) {
+        bps($1, lambda({ 
+            local('$line @lines @s');
+            @lines = split('\n', $2);
+            foreach $line (@lines) {
+                if($line ismatch '^(\S+)\s+(\d+)\s+(\d+)\s*.*') {
+                    # note, will not match processes with spaces in names
+                    local('@m');
+                    @m = matched();
+                    if(@m[0] isin @names) {
+                        %pids[@m[2]] = 1;
+                    }
+                }
+            }
+
+            foreach $loop (keys(%pids)) {
+                bkill($bid, $loop);
+            }
+            blog($bid, "Killed the following process ids: " . join(", ", keys(%pids)));
+        }, %pids => %pids, @names => @names, $bid => $bid));
+    }
+
+
+ }
+
+ beacon_command_register(
+    "pkill",
+    "pkill <process names | pids>",
+    "pkill <process names | pids>\nKill multiple processes either by name or pid.\n\nIf names are specified, a ps will be performed to map to PIDs"
+ );
