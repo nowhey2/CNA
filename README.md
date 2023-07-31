@@ -5,9 +5,9 @@ A collection of Cobalt Strike Network Aggressor scripts
 I.e., pkill cmd.exe 1172 2253 xdiag.exe
 
 <ul>
-Will kill the process IDs 1172 2253 and whatever pids map back to cmd.exe and xdiag.exe
-Mixing names and PIDs will work fine
-The matching on names is case sensitive and will not match space in names.
-If names are included, will cause a ps to be issued (bps), in order to map the name to a PID.
-If names are not included, it will not perform a ps.
+<li>Will kill the process IDs 1172 2253 and whatever pids map back to cmd.exe and xdiag.exe</li>
+<li>Mixing names and PIDs will work fine</li>
+<li>The matching on names is case sensitive and will not match space in names.</li>
+<li>If names are included, will cause a ps to be issued (bps), in order to map the name to a PID.</li>
+<li>If names are not included, it will not perform a ps.</li>
 </ul>
