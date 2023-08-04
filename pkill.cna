@@ -30,9 +30,12 @@
             }
             blog($bid, "Killed the following process ids: " . join(", ", keys(%pids)));
         }, %pids => %pids, @names => @names, $bid => $bid));
+    } else {
+        foreach $loop (keys(%pids)) {
+            bkill($bid, $loop);
+        }
     }
-
-
+ 
  }
 
  beacon_command_register(
